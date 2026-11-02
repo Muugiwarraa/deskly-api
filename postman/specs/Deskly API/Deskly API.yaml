@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  title: Deskly API
+  version: 1.0.0
+  description: ''
+servers:
+  - url: 'http://localhost:4000'
+paths:
+  /health:
+    get:
+      summary: Health Check
+      responses: {}
+  /bookings:
+    get:
+      summary: List Bookings
+      parameters:
+        - name: date
+          in: query
+          description: Filter by date (YYYY-MM-DD)
+          schema:
+            type: string
+          example: ''
+        - name: deskId
+          in: query
+          description: Filter by desk ID (e.g. desk-1)
+          schema:
+            type: string
+          example: ''
+        - name: X-API-Key
+          in: header
+          schema:
+            type: string
+          example: demo-key
+      responses: {}
+      tags:
+        - Bookings
+    post:
+      summary: Create Booking
+      parameters:
+        - name: X-API-Key
+          in: header
+          schema:
+            type: string
+          example: demo-key
+      responses: {}
+      tags:
+        - Bookings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deskId:
+                  type: string
+                date:
+                  type: string
+                  format: date
+                bookedBy:
+                  type: string
+                  format: email
+            example:
+              deskId: desk-2
+              date: '2026-11-15'
+              bookedBy: user@example.com
+  '/bookings/{bookingId}':
+    get:
+      summary: Get Booking
+      parameters:
+        - name: X-API-Key
+          in: header
+          schema:
+            type: string
+          example: demo-key
+      responses: {}
+      tags:
+        - Bookings
+    parameters:
+      - name: bookingId
+        in: path
+        required: true
+        description: ID of the booking to delete (bkg_seed01 is seeded on server start)
+        schema:
+          type: string
+        example: bkg_seed01
+    delete:
+      summary: Delete Booking
+      parameters:
+        - name: X-API-Key
+          in: header
+          schema:
+            type: string
+          example: demo-key
+      responses: {}
+      tags:
+        - Bookings
+  /desks:
+    get:
+      summary: List Desks
+      parameters:
+        - name: zone
+          in: query
+          description: 'Filter by zone: north, south, or quiet'
+          schema:
+            type: string
+          example: ''
+        - name: X-API-Key
+          in: header
+          schema:
+            type: string
+          example: demo-key
+      responses: {}
+      tags:
+        - Desks
+  '/desks/{deskId}':
+    get:
+      summary: Get Desk
+      parameters:
+        - name: X-API-Key
+          in: header
+          schema:
+            type: string
+          example: demo-key
+      responses: {}
+      tags:
+        - Desks
+    parameters:
+      - name: deskId
+        in: path
+        required: true
+        description: ID of the desk to fetch (e.g. desk-1 through desk-6)
+        schema:
+          type: string
+        example: desk-1
