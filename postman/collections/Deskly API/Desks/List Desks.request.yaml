@@ -1,0 +1,13 @@
+$kind: http-request
+name: List Desks
+order: 1000
+url: 'http://localhost:4000/desks'
+method: GET
+headers:
+  - key: X-API-Key
+    value: demo-key
+queryParams:
+  - key: zone
+    value: ''
+    description: 'Filter by zone: north, south, or quiet'
+    disabled: true

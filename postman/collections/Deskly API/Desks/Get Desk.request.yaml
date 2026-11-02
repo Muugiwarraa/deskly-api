@@ -1,0 +1,12 @@
+$kind: http-request
+name: Get Desk
+order: 2000
+url: 'http://localhost:4000/desks/:deskId'
+method: GET
+headers:
+  - key: X-API-Key
+    value: demo-key
+pathVariables:
+  - key: deskId
+    value: desk-1
+    description: 'ID of the desk to fetch (e.g. desk-1 through desk-6)'
