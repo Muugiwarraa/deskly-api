@@ -1,5 +1,6 @@
 workspace:
   id: 38fe6647-33f6-4902-9175-becd50d51a85
+
 localResources:
   specs:
     - ../postman/specs/Deskly API/Deskly API.yaml
