@@ -1,0 +1,40 @@
+name: Deskly mock smoke
+
+on:
+  push:
+    branches: ["feature/**"]
+  pull_request:
+
+jobs:
+  mock-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Postman CLI
+        run: npm install -g postman-cli
+
+      # Stand-in for Deskly — no npm install / npm start for the Express app.
+      # Point at the scenario .js file (not the mock directory).
+      # The trailing & starts the mock in the background so the next steps can curl it.
+      - name: Start Deskly mock
+        run: postman mock run ./postman/mocks/deskly-mock/default.js &
+
+      - name: Wait for mock
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4500/health; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Mock did not become ready in time" >&2
+          exit 1
+
+      - name: Smoke request against mock
+        run: curl -sf http://localhost:4500/health
